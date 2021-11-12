@@ -14,12 +14,12 @@ DOWN = 3
 
 #MAP: 1 is grass, 2 is brick
 map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
+       [0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
+       [0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
-       [1, 1, 1, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0 ,0 ,0, 0],
+       [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
+       [3, 3, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0 ,0 ,0, 0],
+       [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,3 ,0, 0],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2 ,2 ,0, 0],
@@ -32,11 +32,11 @@ map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0, 0],
 
 brick = pygame.image.load('brick.png') #load your spritesheet
 dirt = pygame.image.load('dirt.png') #load your spritesheet
-Link = pygame.image.load('link.png') #load your spritesheet
+Evan = pygame.image.load('Evan.png') #load your spritesheet
 box=pygame.image.load('box.png')
 ntn = pygame.image.load('ntn.png')
 background = pygame.image.load('background.png')
-Link.set_colorkey((255, 0, 255)) #this makes bright pink (255, 0, 255) transparent (sort of)
+#Link.set_colorkey((255, 0, 255)) #this makes bright pink (255, 0, 255) transparent (sort of)
 
 #player variables
 xpos = 500 #xpos of player
@@ -47,8 +47,8 @@ keys = [False, False, False, False] #this list holds whether each key has been p
 isOnGround = False #this variable stops gravity from pulling you down more when on a platform
 
 #animation variables variables
-frameWidth = 32
-frameHeight = 48
+frameWidth = 27
+frameHeight = 36
 RowNum = 0 #for left animation, this will need to change for other animations
 frameNum = 0
 ticker = 0
@@ -62,25 +62,24 @@ while not gameover:
             gameover = True
       
         if event.type == pygame.KEYDOWN: #keyboard input
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 keys[LEFT]=True
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_d:
                 keys[RIGHT]=True
-            elif event.key == pygame.K_UP:
+            elif event.key == pygame.K_SPACE:
                 keys[UP]=True
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 keys[LEFT]=False
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_d:
                 keys[RIGHT]=False
-            elif event.key == pygame.K_UP:
+            elif event.key == pygame.K_SPACE:
                 keys[UP]=False
-          
-
+                
     #LEFT MOVEMENT
     if keys[LEFT]==True:
         vx=-3
-        RowNum = 0
+        RowNum = 2
         direction = LEFT
     #RIGHT MOVEMENT
     elif keys[RIGHT] == True:
@@ -93,7 +92,7 @@ while not gameover:
         #JUMPING
     if keys[UP] == True and isOnGround == True: #only jump when on the ground
         vy = -8
-        RowNum = 2
+        RowNum = 3
         isOnGround = False
         direction = UP
     
@@ -152,7 +151,7 @@ while not gameover:
         ticker+=1
         if ticker%10==0: #only change frames every 10 ticks
           frameNum+=1
-        if frameNum>7: 
+        if frameNum>3: 
            frameNum = 0
   
     # RENDER--------------------------------------------------------------------------------
@@ -174,7 +173,7 @@ while not gameover:
                 screen.blit(ntn, (j*50, i*50), (0, 0, 50, 50))
         
     
-    screen.blit(Link, (xpos, ypos), (frameWidth*frameNum, RowNum*frameHeight, frameWidth, frameHeight))
+    screen.blit(Evan, (xpos, ypos), (frameWidth*frameNum+10, RowNum*frameHeight+15, frameWidth, frameHeight))
     pygame.display.flip()#this actually puts the pixel on the screen
     
 #end game loop------------------------------------------------------------------------------
